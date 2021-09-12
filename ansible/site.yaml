@@ -1,0 +1,24 @@
+---
+  - name: webserver
+    hosts: web
+    remote_user: ec2-user
+    become: yes
+
+    roles:
+      - web_server
+
+  - name: app server
+    hosts: app
+    remote_user: ec2-user
+    become: yes
+
+    roles:
+      - app_server
+
+  - name: dbserver
+    hosts: db
+    remote_user: ec2-user
+    become: yes
+
+    roles:
+      - db_server

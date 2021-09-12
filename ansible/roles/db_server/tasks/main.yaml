@@ -1,0 +1,64 @@
+---
+
+- name: Set kernel parameters ipv4 forward
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    state: present
+
+- name: Set kernel parameters ipv6.conf.all.disable
+  sysctl:
+    name: net.ipv6.conf.all.disable_ipv6
+    value: 1
+    state: present
+
+- name: Set kernel parameters net.ipv6.conf.default.disable_ipv6
+  sysctl:
+    name: net.ipv6.conf.default.disable_ipv6
+    value: 1
+    state: present
+
+- name: Set kernel parameters vm.swappiness
+  sysctl:
+    name: vm.swappiness
+    value: 1
+    state: present
+
+- name: Set kernel parameters kernel.shmall
+  sysctl:
+    name: kernel.shmall
+    value: 3774873
+    state: present
+
+- name: Set kernel parameters kernel.msgmax
+  sysctl:
+    name: kernel.msgmax
+    value: 65535
+    state: present
+
+- name: Set kernel parameters kernel.msgmnb
+  sysctl:
+    name: kernel.msgmnb
+    value: 65535
+    state: present
+
+- name: Download mysql repo
+  get_url:
+    url: https://dev.mysql.com/get/{{ mysql_repo_rpm }}
+    dest: /tmp/{{ mysql_repo_rpm }}
+    mode: '0440'
+
+- name: install mysql repo
+  yum:
+    name: /tmp/{{ mysql_repo_rpm }}
+    state: present
+
+- name: install mysql DB
+  yum:
+    name: mysql-community-server
+    state: latest
+
+- name: Make sure mysql service unit is running
+  ansible.builtin.systemd:
+    state: started
+    name: mysqld

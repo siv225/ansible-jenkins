@@ -1,0 +1,46 @@
+---
+
+- name: Set kernel parameters ipv4 forward
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    state: present
+
+- name: Set kernel parameters ipv6.conf.all.disable
+  sysctl:
+    name: net.ipv6.conf.all.disable_ipv6
+    value: 1
+    state: present
+
+- name: Set kernel parameters net.ipv6.conf.default.disable_ipv6
+  sysctl:
+    name: net.ipv6.conf.default.disable_ipv6
+    value: 1
+    state: present
+
+- name: Install the latest version of Apache
+  yum:
+    name: httpd
+    state: latest
+
+- name: Recursively change ownership of a directory
+  ansible.builtin.file:
+    path: /var/www/html/
+    state: directory
+    recurse: yes
+
+- name: Template a file to /var/www/html
+  ansible.builtin.template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+
+- name: Copy file with owner and permissions
+  ansible.builtin.copy:
+    src: raj.html
+    dest: /var/www/html/raj.html
+
+- name: Make sure a service unit is running
+  ansible.builtin.systemd:
+    state: started
+    name: httpd
+
