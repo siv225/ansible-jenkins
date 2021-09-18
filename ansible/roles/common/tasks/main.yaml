@@ -1,0 +1,11 @@
+---
+
+- name: Set kernel parameters ipv4 forward
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+  with_items:
+    - { name: 'net.ipv4.ip_forward', value: '{{ sysctl_value }}' }
+    - { name: 'net.ipv6.conf.all.disable_ipv6', value: '{{ sysctl_value }}' }
+    - { name: 'net.ipv6.conf.default.disable_ipv6', value: '{{ sysctl_value }}' }

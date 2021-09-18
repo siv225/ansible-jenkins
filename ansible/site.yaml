@@ -1,4 +1,13 @@
 ---
+
+  - name: common server
+    hosts: com
+    remote_user: ec2-user
+    become: yes
+
+    roles:
+      - common
+
   - name: webserver
     hosts: web
     remote_user: ec2-user

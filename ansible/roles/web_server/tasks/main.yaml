@@ -1,26 +1,8 @@
 ---
 
-- name: Set kernel parameters ipv4 forward
-  sysctl:
-    name: net.ipv4.ip_forward
-    value: 1
-    state: present
-
-- name: Set kernel parameters ipv6.conf.all.disable
-  sysctl:
-    name: net.ipv6.conf.all.disable_ipv6
-    value: 1
-    state: present
-
-- name: Set kernel parameters net.ipv6.conf.default.disable_ipv6
-  sysctl:
-    name: net.ipv6.conf.default.disable_ipv6
-    value: 1
-    state: present
-
 - name: Install the latest version of Apache
   yum:
-    name: httpd
+    name: "{{ http_name }}"
     state: latest
 
 - name: Recursively change ownership of a directory
@@ -42,5 +24,5 @@
 - name: Make sure a service unit is running
   ansible.builtin.systemd:
     state: started
-    name: httpd
+    name: "{{ http_name }}"
 
