@@ -3,8 +3,8 @@ resource "aws_instance" "devops-2021" {
   instance_type = "t2.micro"
   count = 6
   associate_public_ip_address = true
-  key_name = "rajkey"
+  key_name = "Myrsakey"
   tags = {
-    Name = "pradeep-terraform"
+    Name = "siva-terraform"
   }
 }
